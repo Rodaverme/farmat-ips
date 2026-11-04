@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: fartmar-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: fartmar_db
+      POSTGRES_USER: fartmar_user
+      POSTGRES_PASSWORD: fartmar_pass
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./fartmar-backend
+      dockerfile: Dockerfile
+    container_name: fartmar-backend
+    restart: always
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: fartmar_db
+      DB_USERNAME: fartmar_user
+      DB_PASSWORD: fartmar_pass
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      context: ./fartmar-frontend
+      dockerfile: Dockerfile
+    container_name: fartmar-frontend
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
