@@ -4,11 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property int $id
+ * @property string $nombre
+ * @property string $apellido
+ * @property string $tipo_documento
+ * @property string $numero_documento
+ * @property string $fecha_nacimiento
+ * @property string $genero
+ * @property string|null $telefono
+ * @property string|null $direccion
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ */
 class Paciente extends Model
 {
     use HasFactory;
+
+    protected $table = 'pacientes';
 
     protected $fillable = [
         'nombre',
@@ -21,15 +36,19 @@ class Paciente extends Model
         'direccion',
     ];
 
+    /**
+     * @return HasMany<Prescripcion, $this>
+     */
     public function prescripciones(): HasMany
     {
         return $this->hasMany(Prescripcion::class);
     }
 
+    /**
+     * @return HasMany<Dispensacion, $this>
+     */
     public function dispensaciones(): HasMany
     {
         return $this->hasMany(Dispensacion::class);
     }
-
-    //
 }

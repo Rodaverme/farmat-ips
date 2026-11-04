@@ -2,49 +2,52 @@
 
 namespace App\Models;
 
-use Illuminate\Database\eloquent\builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property int $bodega_id
+ * @property int $producto_id
+ * @property string $lote
+ * @property string $fecha_vencimiento
+ * @property int $cantidad
+ * @property int $stock_minimo
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ *
+ * @mixin Builder
+ */
 class LoteInventario extends Model
 {
     use HasFactory;
 
+    protected $table = 'lote_inventarios';
+
     protected $fillable = [
-        'producto_id',
         'bodega_id',
+        'producto_id',
         'lote',
         'fecha_vencimiento',
         'cantidad',
         'stock_minimo',
     ];
 
-    protected $casts = [
-        'fecha_vencimiento' => 'date',
-        'cantidad' => 'integer',
-        'stock_minimo' => 'integer',
-    ];
-    //
-
+    /**
+     * @return BelongsTo<Producto, $this>
+     */
     public function producto(): BelongsTo
     {
         return $this->belongsTo(Producto::class);
     }
 
+    /**
+     * @return BelongsTo<Bodega, $this>
+     */
     public function bodega(): BelongsTo
     {
         return $this->belongsTo(Bodega::class);
-
-    }
-
-    // Scope para filtrar lotes disponibles
-
-    public function scopeDisponible(builder $query): builder
-    {
-        return $query->where('fecha_vencimiento', '>', now()->toDateString())
-            ->where('cantidad', '>', 0)
-            ->orderBy('fecha_vencimiento', 'asc');
-
     }
 }
