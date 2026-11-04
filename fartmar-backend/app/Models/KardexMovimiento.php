@@ -2,19 +2,17 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use illuminate\Database\relations\BelongsTo;
+use Illuminate\Database\relations\BelongsTo;
 
 class KardexMovimiento extends Model
 {
+    use HasFactory;
 
-use HasFactory;
+    public $timestamps = true;
 
-
-public $timestamps = true;
-const UPDATED_AT = null;
+    const UPDATED_AT = null;
 
     protected $fillable = [
         'producto_id',
@@ -33,13 +31,10 @@ const UPDATED_AT = null;
         return $this->belongsTo(Producto::class);
     }
 
-
     public function bodega(): BelongsTo
     {
         return $this->belongsTo(Bodega::class);
     }
-    
 
-
-//
+    //
 }

@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use illuminate\Database\relations\HasMany;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\relations\HasMany;
 
 class Bodega extends Model
 {

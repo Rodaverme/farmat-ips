@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\eloquent\builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use illuminate\Database\relations\BelongsTo;
-use illuminate\Database\eloquent\builder;
+use Illuminate\Database\relations\BelongsTo;
 
 class LoteInventario extends Model
 {
@@ -35,20 +35,16 @@ class LoteInventario extends Model
     public function bodega(): BelongsTo
     {
         return $this->belongsTo(Bodega::class);
-    
+
     }
 
+    // Scope para filtrar lotes disponibles
 
-
-
-// Scope para filtrar lotes disponibles
-
-    public function scopeDisponible(Builder $query): Builder
+    public function scopeDisponible(builder $query): builder
     {
         return $query->where('fecha_vencimiento', '>', now()->toDateString())
             ->where('cantidad', '>', 0)
             ->orderBy('fecha_vencimiento', 'asc');
 
     }
-
 }

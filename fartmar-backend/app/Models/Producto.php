@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use illuminate\Database\relations\HasMany;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\relations\HasMany;
 
 class Producto extends Model
 {
@@ -14,7 +14,7 @@ class Producto extends Model
         'nombre',
         'codigo_cum',
         'es_control_especial',
-        'stock'
+        'stock',
     ];
     //
 

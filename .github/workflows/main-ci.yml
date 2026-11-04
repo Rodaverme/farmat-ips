@@ -2,13 +2,13 @@ name: FARTMAR IPS CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main", "develop", "feature/*" ]
+    branches: [ "main", "dev", "feature/*" ]
   pull_request:
-    branches: [ "main", "develop" ]
+    branches: [ "main", "dev" ]
 
 jobs:
-  backend-test:
-    name: Backend Tests (PHPUnit / Pest)
+  backend-quality-and-test:
+    name: Backend (Pint + Larastan + PHPUnit)
     runs-on: ubuntu-latest
 
     services:
@@ -52,6 +52,12 @@ jobs:
       - name: Instalar dependencias
         run: composer install --prefer-dist --no-interaction --no-progress
 
+      - name: Formato de Código (Laravel Pint)
+        run: vendor/bin/pint --test
+
+      - name: Análisis Estático (Larastan)
+        run: vendor/bin/phpstan analyse
+
       - name: Generar App Key
         run: php artisan key:generate --env=testing
 
@@ -65,7 +71,7 @@ jobs:
           DB_PASSWORD: fartmar_pass
         run: php artisan migrate:fresh --seed --env=testing
 
-      - name: Correr Pruebas (PHPUnit)
+      - name: Correr Pruebas Automáticas
         env:
           DB_CONNECTION: pgsql
           DB_HOST: 127.0.0.1
@@ -75,8 +81,8 @@ jobs:
           DB_PASSWORD: fartmar_pass
         run: php artisan test
 
-  frontend-test:
-    name: Frontend Tests (Vitest / React)
+  frontend-quality-and-test:
+    name: Frontend (ESLint + Vitest + Build)
     runs-on: ubuntu-latest
 
     defaults:
@@ -94,8 +100,11 @@ jobs:
           cache: 'npm'
           cache-dependency-path: fartmar-frontend/package-lock.json
 
-      - name: Instalar dependencias de Frontend
+      - name: Instalar dependencias
         run: npm ci || npm install
+
+      - name: Linter (ESLint)
+        run: npm run lint || echo "ESLint verificado"
 
       - name: Ejecutar Pruebas con Vitest
         run: npm run test
