@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DispensacionController;
 use App\Http\Controllers\Api\InventarioController;
+use App\Http\Controllers\Api\TrasladoController;
 use Illuminate\Support\Facades\Route;
 
 // Rutas Públicas
@@ -20,4 +21,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // Rutas de Dispensación
     Route::post('/dispensaciones', [DispensacionController::class, 'store']);
 
+    // Rutas de Traslados
+    Route::post('/traslados', [TrasladoController::class, 'store']);
+    Route::post('/traslados/{id}/aprobar', [TrasladoController::class, 'aprobar']);
+    Route::post('/traslados/{id}/despachar', [TrasladoController::class, 'despachar']);
+    Route::post('/traslados/{id}/recibir', [TrasladoController::class, 'recibir']);
 });
