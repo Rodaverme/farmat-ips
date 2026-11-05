@@ -3,19 +3,22 @@
 namespace App\Console\Commands;
 
 use App\Contracts\AIProviderInterface;
+use App\Services\InventoryAssistantTools;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
 class EvaluateAssistantCommand extends Command
 {
     protected $signature = 'assistant:evaluate';
+
     protected $description = 'Ejecuta el conjunto de evaluación de 10 preguntas del asistente de IA';
 
     public function handle(AIProviderInterface $aiProvider): int
     {
         $path = base_path('tests/Fixtures/assistant_eval_dataset.json');
-        if (!File::exists($path)) {
+        if (! File::exists($path)) {
             $this->error("No se encontró el dataset de evaluación en {$path}");
+
             return self::FAILURE;
         }
 
@@ -26,7 +29,7 @@ class EvaluateAssistantCommand extends Command
         $this->info("Iniciando evaluación del asistente de IA ({$total} casos)...\n");
 
         foreach ($dataset as $test) {
-           $resultado = $aiProvider->chat($test['pregunta'], \App\Services\InventoryAssistantTools::getToolDefinitions());
+            $resultado = $aiProvider->chat($test['pregunta'], InventoryAssistantTools::getToolDefinitions());
             $toolDetectada = $resultado['tool'] ?? null;
             $esperada = $test['herramienta_esperada'] ?? null;
 
@@ -35,7 +38,7 @@ class EvaluateAssistantCommand extends Command
                 $aciertos++;
                 $this->line("✅ [Caso #{$test['id']}] OK - Pregunta: '{$test['pregunta']}'");
             } else {
-                $this->warn("❌ [Caso #{$test['id']}] FALLO - Pregunta: '{$test['pregunta']}' (Esperado: " . ($esperada ?? 'Texto') . ", Detectado: " . ($toolDetectada ?? 'Texto') . ")");
+                $this->warn("❌ [Caso #{$test['id']}] FALLO - Pregunta: '{$test['pregunta']}' (Esperado: ".($esperada ?? 'Texto').', Detectado: '.($toolDetectada ?? 'Texto').')');
             }
         }
 

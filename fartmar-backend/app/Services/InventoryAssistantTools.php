@@ -47,12 +47,12 @@ class InventoryAssistantTools
                 ->where('cantidad', '>', 0)
                 ->whereDate('fecha_vencimiento', '<=', $limite);
 
-            if (!empty($arguments['producto'])) {
-                $query->whereHas('producto', fn($q) => $q->where('nombre', 'ilike', "%{$arguments['producto']}%"));
+            if (! empty($arguments['producto'])) {
+                $query->whereHas('producto', fn ($q) => $q->where('nombre', 'ilike', "%{$arguments['producto']}%"));
             }
 
-            if (!empty($arguments['bodega'])) {
-                $query->whereHas('bodega', fn($q) => $q->where('nombre', 'ilike', "%{$arguments['bodega']}%"));
+            if (! empty($arguments['bodega'])) {
+                $query->whereHas('bodega', fn ($q) => $q->where('nombre', 'ilike', "%{$arguments['bodega']}%"));
             }
 
             return $query->get();

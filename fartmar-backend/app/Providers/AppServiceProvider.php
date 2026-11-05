@@ -15,9 +15,9 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(AIProviderInterface::class, function ($app) {
-            return env('AI_PROVIDER', 'mock') === 'openai' 
-                ? new OpenAIProvider() 
-                : new MockAIProvider();
+            return env('AI_PROVIDER', 'mock') === 'openai'
+                ? new OpenAIProvider
+                : new MockAIProvider;
         });
     }
 
