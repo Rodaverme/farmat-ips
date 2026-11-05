@@ -68,7 +68,7 @@ class TrasladoService
 
         // RN-08: Quien solicita no puede aprobar
         if ($traslado->solicitante_id === $usuarioAprobador->id) {
-            throw new InvalidArgumentException('Segregación de funciones: El usuario que solicita un traslado no puede aprobarlo.');
+            throw new InvalidArgumentException('El usuario que solicita un traslado no puede aprobarlo.');
         }
 
         if ($usuarioAprobador->role !== 'regente_farmacia' && $usuarioAprobador->role !== 'admin') {

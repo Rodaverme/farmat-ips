@@ -41,6 +41,25 @@ class InventarioController extends Controller
         return response()->json($productos, Response::HTTP_OK);
     }
 
+        /**
+     * Listar todos los lotes de inventario con sus relaciones de producto y bodega.
+     */
+    public function lotes(Request $request): JsonResponse
+    {
+        $query = LoteInventario::with(['producto', 'bodega'])
+            ->where('cantidad', '>', 0)
+            ->orderBy('fecha_vencimiento', 'asc');
+
+        if ($request->query('bodega_id')) {
+            $query->where('bodega_id', $request->query('bodega_id'));
+        }
+
+        $lotes = $query->get();
+
+        return response()->json($lotes, Response::HTTP_OK);
+    }
+
+
     /**
      * Alertas de vencimiento (Semaforización).
      */

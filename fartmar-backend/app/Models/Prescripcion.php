@@ -6,18 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/**
- * @property int $id
- * @property int $paciente_id
- * @property int $medico_id
- * @property int $producto_id
- * @property int $cantidad_prescrita
- * @property int $cantidad_dispensada
- * @property string $fecha_prescripcion
- * @property string $diagnostico
- * @property string|null $observaciones
- * @property-read Producto $producto
- */
 class Prescripcion extends Model
 {
     use HasFactory;
@@ -36,10 +24,26 @@ class Prescripcion extends Model
     ];
 
     /**
-     * @return BelongsTo<Producto, $this>
+     * Relación con el Paciente.
+     */
+    public function paciente(): BelongsTo
+    {
+        return $this->belongsTo(Paciente::class);
+    }
+
+    /**
+     * Relación con el Producto.
      */
     public function producto(): BelongsTo
     {
-        return $this->belongsTo(Producto::class, 'producto_id');
+        return $this->belongsTo(Producto::class);
+    }
+
+    /**
+     * Relación con el Médico.
+     */
+    public function medico(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'medico_id');
     }
 }
