@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DispensacionRequest;
+use App\Models\User;
 use App\Services\DispensacionService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cache;
@@ -25,7 +26,7 @@ class DispensacionController extends Controller
         }
 
         try {
-            /** @var \App\Models\User $user */
+            /** @var User $user */
             $user = $request->user();
 
             $resultado = $service->procesarDispensacion($request->validated(), $user);
