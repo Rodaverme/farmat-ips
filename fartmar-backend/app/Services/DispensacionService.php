@@ -34,7 +34,7 @@ class DispensacionService
 
             $cantidadPendiente = (int) $data['cantidad'];
 
-            // 1. Validar medicamentos de control especial (2da Firma de Regente)
+            //  Validar medicamentos de control especial (2da Firma de Regente)
             if ($producto->es_control_especial) {
                 if (empty($data['regente_email']) || empty($data['regente_password'])) {
                     throw new InvalidArgumentException('El medicamento requiere autorización de 2da firma del Regente de Farmacia.');
@@ -50,7 +50,7 @@ class DispensacionService
                 }
             }
 
-            // 2. Validar saldo de la prescripción
+            //  Validar saldo de la prescripción
             $maxDispensable = $prescripcion->cantidad_prescrita - $prescripcion->cantidad_dispensada;
             if ($cantidadPendiente > $maxDispensable) {
                 throw new InvalidArgumentException("La cantidad supera el saldo de la prescripción. Máximo permitido: {$maxDispensable}.");
@@ -73,7 +73,7 @@ class DispensacionService
             $lotesDescontados = [];
             $porDescontar = $cantidadPendiente;
 
-            // 4. Descontar stock por FEFO y registrar en KardexMovimiento
+            //  Descontar de los lotes vigentes siguiendo la lógica FEFO
             /** @var LoteInventario $lote */
             foreach ($lotes as $lote) {
                 if ($porDescontar <= 0) {
