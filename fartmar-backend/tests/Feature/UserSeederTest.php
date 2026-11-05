@@ -1,14 +1,11 @@
 <?php
 
-
 namespace Tests\Feature;
 
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class UserSeederTest extends TestCase
-
 {
     use RefreshDatabase;
 
@@ -24,6 +21,6 @@ class UserSeederTest extends TestCase
         $this->assertDatabaseHas('users', ['email' => 'regente@farmart.com', 'role' => 'regente_farmacia']);
         $this->assertDatabaseHas('users', ['email' => 'medico@farmart.com', 'role' => 'medico']);
         $this->assertDatabaseHas('users', ['email' => 'auditor@farmart.com', 'role' => 'auditor']);
-        $this->assertDatabaseHas('users', ['email' => 'admin@farmart.com', 'role' => 'admin']);;
+        $this->assertDatabaseHas('users', ['email' => 'admin@farmart.com', 'role' => 'admin']);
     }
 }

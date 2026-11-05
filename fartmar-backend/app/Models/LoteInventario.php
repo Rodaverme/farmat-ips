@@ -4,16 +4,28 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use illuminate\Database\relations\BelongsTo;
-use illuminate\Database\eloquent\builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property int $bodega_id
+ * @property int $producto_id
+ * @property string $lote
+ * @property string $fecha_vencimiento
+ * @property int $cantidad
+ * @property int $stock_minimo
+ * @property-read Bodega $bodega
+ * @property-read Producto $producto
+ */
 class LoteInventario extends Model
 {
     use HasFactory;
 
+    protected $table = 'lote_inventarios';
+
     protected $fillable = [
-        'producto_id',
         'bodega_id',
+        'producto_id',
         'lote',
         'fecha_vencimiento',
         'cantidad',
@@ -21,34 +33,23 @@ class LoteInventario extends Model
     ];
 
     protected $casts = [
-        'fecha_vencimiento' => 'date',
         'cantidad' => 'integer',
         'stock_minimo' => 'integer',
     ];
-    //
 
-    public function producto(): BelongsTo
-    {
-        return $this->belongsTo(Producto::class);
-    }
-
+    /**
+     * @return BelongsTo<Bodega, $this>
+     */
     public function bodega(): BelongsTo
     {
-        return $this->belongsTo(Bodega::class);
-    
+        return $this->belongsTo(Bodega::class, 'bodega_id');
     }
 
-
-
-
-// Scope para filtrar lotes disponibles
-
-    public function scopeDisponible(Builder $query): Builder
+    /**
+     * @return BelongsTo<Producto, $this>
+     */
+    public function producto(): BelongsTo
     {
-        return $query->where('fecha_vencimiento', '>', now()->toDateString())
-            ->where('cantidad', '>', 0)
-            ->orderBy('fecha_vencimiento', 'asc');
-
+        return $this->belongsTo(Producto::class, 'producto_id');
     }
-
 }

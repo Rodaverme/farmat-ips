@@ -2,10 +2,11 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     public function up(): void
     {
         Schema::create('lote_inventarios', function (Blueprint $table) {
@@ -18,11 +19,11 @@ return new class extends Migration {
             $table->integer('stock_minimo')->default(10);
             $table->timestamps();
 
-            // Restricción única por bodega, producto y número de lote (RN-01)
+            // Agregar una restricción de unicidad para evitar duplicados de lote por bodega y producto
             $table->unique(['bodega_id', 'producto_id', 'lote']);
         });
 
-        // Restricción CHECK en PostgreSQL para defender stock no negativo (RN-03)
+        // Agregar una restricción de verificación para asegurar que la cantidad sea mayor o igual a cero
         DB::statement('ALTER TABLE lote_inventarios ADD CONSTRAINT chk_cantidad_positiva CHECK (cantidad >= 0)');
     }
 

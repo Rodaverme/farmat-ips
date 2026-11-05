@@ -2,26 +2,36 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use illuminate\Database\relations\HasMany;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property string $nombre
+ * @property string $codigo_cum
+ * @property bool $es_control_especial
+ * @property int $stock
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ */
 class Producto extends Model
 {
     use HasFactory;
+
+    protected $table = 'productos';
 
     protected $fillable = [
         'nombre',
         'codigo_cum',
         'es_control_especial',
-        'stock'
-    ];
-    //
-
-    protected $casts = [
-        'es_control_especial' => 'boolean',
+        'stock',
     ];
 
+    /**
+     * @return HasMany<LoteInventario, $this>
+     */
     public function lotes(): HasMany
     {
         return $this->hasMany(LoteInventario::class);

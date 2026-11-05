@@ -13,6 +13,20 @@ return new class extends Migration
     {
         Schema::create('traslados', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('bodega_origen_id')->constrained('bodegas')->cascadeOnDelete();
+            $table->foreignId('bodega_destino_id')->constrained('bodegas')->cascadeOnDelete();
+            $table->foreignId('solicitante_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('aprobador_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->enum('estado', [
+                'BORRADOR',
+                'SOLICITADO',
+                'APROBADO',
+                'EN_TRANSITO',
+                'RECIBIDO',
+                'RECIBIDO_PARCIAL',
+                'ANULADO',
+            ])->default('SOLICITADO');
+            $table->text('observaciones')->nullable();
             $table->timestamps();
         });
     }

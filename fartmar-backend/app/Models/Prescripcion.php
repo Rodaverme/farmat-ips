@@ -10,7 +10,6 @@ class Prescripcion extends Model
 {
     use HasFactory;
 
-    // Nombre explícito de la tabla en español
     protected $table = 'prescripciones';
 
     protected $fillable = [
@@ -24,13 +23,27 @@ class Prescripcion extends Model
         'observaciones',
     ];
 
+    /**
+     * Relación con el Paciente.
+     */
     public function paciente(): BelongsTo
     {
         return $this->belongsTo(Paciente::class);
     }
 
+    /**
+     * Relación con el Producto.
+     */
     public function producto(): BelongsTo
     {
         return $this->belongsTo(Producto::class);
+    }
+
+    /**
+     * Relación con el Médico.
+     */
+    public function medico(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'medico_id');
     }
 }
