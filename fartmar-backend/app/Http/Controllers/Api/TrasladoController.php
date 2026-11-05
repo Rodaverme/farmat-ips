@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CrearTrasladoRequest;
+use App\Models\Traslado;
 use App\Models\User;
 use App\Services\TrasladoService;
 use Illuminate\Http\JsonResponse;
@@ -83,15 +84,15 @@ class TrasladoController extends Controller
 
     public function index(): JsonResponse
     {
-        $traslados = \App\Models\Traslado::with([
-            'detalles', 
-            'bodegaOrigen', 
-            'bodegaDestino', 
-            'solicitante', 
-            'aprobador'
+        $traslados = Traslado::with([
+            'detalles',
+            'bodegaOrigen',
+            'bodegaDestino',
+            'solicitante',
+            'aprobador',
         ])
-        ->orderBy('created_at', 'desc')
-        ->get();
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return response()->json($traslados, Response::HTTP_OK);
     }

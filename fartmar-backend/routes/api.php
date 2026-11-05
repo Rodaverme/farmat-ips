@@ -5,8 +5,8 @@ use App\Http\Controllers\Api\DispensacionController;
 use App\Http\Controllers\Api\InventarioAlertaController;
 use App\Http\Controllers\Api\InventarioController;
 use App\Http\Controllers\Api\KardexController;
-use App\Http\Controllers\Api\TrasladoController;
 use App\Http\Controllers\Api\PrescripcionController;
+use App\Http\Controllers\Api\TrasladoController;
 use Illuminate\Support\Facades\Route;
 
 // Rutas Públicas

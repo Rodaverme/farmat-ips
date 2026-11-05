@@ -41,7 +41,7 @@ class InventarioController extends Controller
         return response()->json($productos, Response::HTTP_OK);
     }
 
-        /**
+    /**
      * Listar todos los lotes de inventario con sus relaciones de producto y bodega.
      */
     public function lotes(Request $request): JsonResponse
@@ -58,7 +58,6 @@ class InventarioController extends Controller
 
         return response()->json($lotes, Response::HTTP_OK);
     }
-
 
     /**
      * Alertas de vencimiento (Semaforización).
