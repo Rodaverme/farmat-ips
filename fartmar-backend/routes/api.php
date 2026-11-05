@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\DispensacionController;
 use App\Http\Controllers\Api\InventarioController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,5 +16,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // Rutas de Inventario
     Route::get('/inventario', [InventarioController::class, 'index']);
     Route::get('/inventario/vencimientos', [InventarioController::class, 'alertasVencimiento']);
+
+    // Rutas de Dispensación
+    Route::post('/dispensaciones', [DispensacionController::class, 'store']);
 
 });
