@@ -9,21 +9,18 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         $this->app->bind(AIProviderInterface::class, function ($app) {
-            return env('AI_PROVIDER', 'mock') === 'openai'
-                ? new OpenAIProvider
-                : new MockAIProvider;
+            // Usamos config() en lugar de env() para cumplir con Larastan
+            $provider = config('services.ai.provider', 'mock');
+
+            return $provider === 'openai' 
+                ? new OpenAIProvider() 
+                : new MockAIProvider();
         });
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         //

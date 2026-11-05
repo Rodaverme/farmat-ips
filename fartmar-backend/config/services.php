@@ -38,4 +38,8 @@ return [
         'key' => env('OPENAI_API_KEY'),
     ],
 
+    'ai' => [
+    'provider' => env('AI_PROVIDER', 'mock'),
+],
+
 ];
