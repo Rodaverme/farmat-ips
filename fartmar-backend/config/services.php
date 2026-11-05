@@ -39,7 +39,7 @@ return [
     ],
 
     'ai' => [
-    'provider' => env('AI_PROVIDER', 'mock'),
-],
+        'provider' => env('AI_PROVIDER', 'mock'),
+    ],
 
 ];

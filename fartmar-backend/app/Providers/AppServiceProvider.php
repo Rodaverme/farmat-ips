@@ -15,9 +15,9 @@ class AppServiceProvider extends ServiceProvider
             // Usamos config() en lugar de env() para cumplir con Larastan
             $provider = config('services.ai.provider', 'mock');
 
-            return $provider === 'openai' 
-                ? new OpenAIProvider() 
-                : new MockAIProvider();
+            return $provider === 'openai'
+                ? new OpenAIProvider
+                : new MockAIProvider;
         });
     }
 
