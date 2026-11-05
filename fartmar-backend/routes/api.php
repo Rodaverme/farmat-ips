@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\DispensacionController;
 use App\Http\Controllers\Api\InventarioAlertaController;
 use App\Http\Controllers\Api\InventarioController;
 use App\Http\Controllers\Api\KardexController;
+use App\Http\Controllers\Api\PrescripcionController;
 use App\Http\Controllers\Api\TrasladoController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +17,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
+    // Rutas de Prescripciones
+    Route::get('/prescripciones/{id}', [PrescripcionController::class, 'show']);
+
     // Rutas de Inventario
     Route::get('/inventario', [InventarioController::class, 'index']);
     Route::get('/inventario/vencimientos', [InventarioController::class, 'alertasVencimiento']);
@@ -24,6 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/dispensaciones', [DispensacionController::class, 'store']);
 
     // Rutas de Traslados
+    Route::get('/traslados', [TrasladoController::class, 'index']);
     Route::post('/traslados', [TrasladoController::class, 'store']);
     Route::post('/traslados/{id}/aprobar', [TrasladoController::class, 'aprobar']);
     Route::post('/traslados/{id}/despachar', [TrasladoController::class, 'despachar']);
@@ -34,5 +39,5 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Rutas de Alertas de Inventario
     Route::get('/inventario/alertas', [InventarioAlertaController::class, 'index']);
-
+    Route::get('/inventario/lotes', [InventarioController::class, 'lotes']);
 });
