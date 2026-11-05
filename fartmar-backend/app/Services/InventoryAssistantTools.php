@@ -61,7 +61,7 @@ class InventoryAssistantTools
         if ($toolName === 'consultar_stock_minimo') {
             return LoteInventario::with(['producto', 'bodega'])
                 ->whereColumn('cantidad', '<=', 'stock_minimo')
-                .get();
+                ->get();
         }
 
         return null;
